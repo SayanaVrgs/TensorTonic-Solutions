@@ -6,19 +6,14 @@ def pad_sequences(seqs, pad_value=0, max_len=None):
       N = len(seqs)
       L = max_len if provided else max(len(seq) for seq in seqs) or 0
     """
-    # Your code here 
-    if not seqs:
-        return np.full(shape=(0, 0), fill_value=pad_value)
-    cols = [len(seq) for seq in seqs]
+    # Your code here
     if not max_len:
-        max_len = max(cols)
-    #print(max_len)
-    rows = len(seqs)
-    result = np.full(shape = (rows, max_len), fill_value = pad_value)
-    for r in range(rows):
-        for mx in range(max_len):
-            if mx <  cols[r]:
-                result[r][mx] = seqs[r][mx]
+        max_len = max(len(s) for s in seqs)
+    seqs = [s[:max_len] for s in seqs]
+
+    result = np.full((len(seqs), max_len), fill_value = pad_value)
+
+    for i, s in enumerate(seqs):
+        result[i, :len(s)] = s
 
     return result
-    
